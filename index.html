@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jeu RPG</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            padding: 20px;
+            background-color: #f0f0f0;
+        }
+        h1 {
+            color: #333;
+        }
+        .character-selection {
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Choisissez votre personnage</h1>
+    <div class="character-selection">
+        <select id="characterSelect">
+            <option value="Fighter">Fighter</option>
+            <option value="Paladin">Paladin</option>
+            <option value="Monk">Monk</option>
+            <option value="Berzerker">Berzerker</option>
+            <option value="Assassin">Assassin</option>
+            <option value="Wizard">Wizard</option>
+            <option value="Shaman">Shaman</option>
+        </select>
+        <input type="text" id="characterName" placeholder="Nom de votre personnage" />
+        <button id="startGameButton">Démarrer le jeu</button>
+    </div>
+
+    <div id="gameOutput"></div>
+
+    <script type="module">
+        import Game from './Game.js';
+        import Fighter from './characters/Fighter.js';
+        import Paladin from './characters/Paladin.js';
+        import Monk from './characters/Monk.js';
+        import Berzerker from './characters/Berzerker.js';
+        import Assassin from './characters/Assassin.js';
+        import Wizard from './characters/Wizard.js';
+        import Shaman from './characters/Shaman.js';
+
+        const classes = { Fighter, Paladin, Monk, Berzerker, Assassin, Wizard, Shaman };
+        
+        document.getElementById('startGameButton').addEventListener('click', () => {
+            const selectedClass = document.getElementById('characterSelect').value;
+            const characterName = document.getElementById('characterName').value;
+
+            if (characterName) {
+                const playerCharacter = new classes[selectedClass](characterName);
+                const game = new Game(playerCharacter);
+                game.startGame();
+            } else {
+                alert('Veuillez entrer un nom pour votre personnage.');
+            }
+        });
+
+        // Afficher les résultats du jeu
+        function displayOutput(message) {
+            const gameOutput = document.getElementById('gameOutput');
+            gameOutput.innerHTML += `<p>${message}</p>`;
+        }
+    </script>
+
+</body>
+</html>
